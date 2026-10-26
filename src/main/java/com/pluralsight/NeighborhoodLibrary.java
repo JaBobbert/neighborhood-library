@@ -87,6 +87,7 @@ public class NeighborhoodLibrary {
         if (pick == 0) {
             System.out.println("You chose to go back.");
             System.out.println("Going back to the home page");
+            return;
         }
 
         if (book[pick-1].id() != 0 && !book[pick-1].isCheckedOut) {
@@ -106,22 +107,26 @@ public class NeighborhoodLibrary {
 
     public static void returnBook(Scanner kd, Book[] book) {
 
-
-        System.out.println("ID  ISBN                Title");
-
-        for (int i = 0; i <= numCheckedOut; i++) {
+        for (int i = 0; i < numBooks; i++) {
             if (book[i].isCheckedOut) {
+                System.out.println("ID  ISBN                Title");
                 System.out.println(book[i].id + "   " + book[i].isbn + "   " + book[i].title);
+
+
             }
         }
-        System.out.println("What book id was it? ");
-        int pick = kd.nextInt();
+            System.out.println("What book id was it? ");
+            int pick = kd.nextInt();
 
-        if (book[pick - 1].id() != 0 && book[pick - 1].isCheckedOut) {
-            System.out.println("Thank you for returning " + book[pick - 1].title);
-            book[pick - 1].isCheckedOut = false;
-            numCheckedOut -= 1;
-        }
+            if (pick == 0) {
+                System.out.println("You chose to go back.");
+                System.out.println("Going back to the home page");
+            }
+            else if (book[pick - 1].id() != 0 && book[pick - 1].isCheckedOut) {
+                System.out.println("Thank you for returning " + book[pick - 1].title);
+                book[pick - 1].isCheckedOut = false;
+                numCheckedOut -= 1;
+            }
     }//End of return book
 }
 
