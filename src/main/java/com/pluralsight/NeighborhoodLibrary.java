@@ -6,11 +6,12 @@ import java.util.Scanner;
 public class NeighborhoodLibrary {
 
     private static int numBooks = 3;
+    private static int numCheckedOut = 0;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        Book[] book = new Book[10];
+        Book[] book = new Book[20];
 
         book[0] = new Book(1, "657-1-25-000001-0", "Cat and The Hat");
         book[1] = new Book(2, "657-1-25-000002-0", "TMNT");
@@ -88,45 +89,39 @@ public class NeighborhoodLibrary {
             System.out.println("Going back to the home page");
         }
 
-        for (int i = 0; i < numBooks; i++) {
-            if (pick == book[i].id && !book[i].isCheckedOut) {
-                System.out.print("Enter your name: ");
-                String name = scanner.nextLine();
+        if (book[pick-1].id() != 0 && !book[pick-1].isCheckedOut) {
+            System.out.print("Enter your name: ");
+            String name = scanner.nextLine();
 
-                book[i].setName(name);
-                System.out.println(book[i].title + " is checked out to " + name);
-                book[i].isCheckedOut = true;
-            }
+            book[pick-1].isCheckedOut = true;
+            numCheckedOut += 1;
+            book[pick-1].setName(name);
+            System.out.println(book[pick-1].title + " is checked out to " + name);
 
-            else {
-                System.out.println("Invalid choice or book already checked out.");
+        } else {
+            System.out.println("Invalid choice or book already checked out.");
+        }
+    }
+//End of checking out a book
+
+    public static void returnBook(Scanner kd, Book[] book) {
+
+
+        System.out.println("ID  ISBN                Title");
+
+        for (int i = 0; i <= numCheckedOut; i++) {
+            if (book[i].isCheckedOut) {
+                System.out.println(book[i].id + "   " + book[i].isbn + "   " + book[i].title);
             }
         }
+        System.out.println("What book id was it? ");
+        int pick = kd.nextInt();
 
-
-        System.out.println("Going back to the home page");
-    }//End of checking out a book
-
-    public static void returnBook(Scanner kd, Book[] book){
-        System.out.println("Hello may you present your name: ");
-        String name = kd.nextLine();
-
-        for(int i = 0; i < numBooks; i++) {
-            if (name.equalsIgnoreCase(book[i].getName())) {
-                System.out.println("Would you like to return this book " + book[i]);
-                System.out.println("1 for yes. 2 for no.");
-                int pick = kd.nextInt();
-                if (pick == 1) {
-                    System.out.println("Thank you for returning this book " + book[i]);
-                    book[i].isCheckedOut = false;
-                } else if (pick == 2) {
-                    System.out.println("Okay take as long as you need with the book.");
-                } else {
-                    System.out.println("Sorry invalid choice. You will be sent back to the home page.");
-                }
-            } else {
-                System.out.println("Sorry " + name + " is not currently having a book checked out at this time.");
-            }
+        if (book[pick - 1].id() != 0 && book[pick - 1].isCheckedOut) {
+            System.out.println("Thank you for returning " + book[pick - 1].title);
+            book[pick - 1].isCheckedOut = false;
+            numCheckedOut -= 1;
         }
     }//End of return book
 }
+
